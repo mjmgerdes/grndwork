@@ -63,7 +63,7 @@ export default function Waitlist() {
       name: "",
       email: "",
       school: "",
-      graduation_year: undefined,
+      graduation_year: "",
       career_interest: "",
     },
   });

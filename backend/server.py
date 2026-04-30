@@ -12,7 +12,7 @@ from typing import List
 import uuid
 from datetime import datetime, timezone
 
-from database import get_db
+from database import get_db, engine
 from models import Waitlist
 
 
@@ -139,3 +139,4 @@ logger = logging.getLogger(__name__)
 @app.on_event("shutdown")
 async def shutdown_db_client():
     client.close()
+    await engine.dispose()
