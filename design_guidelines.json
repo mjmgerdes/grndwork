@@ -1,0 +1,110 @@
+{
+  "theme": "Dark",
+  "archetype": "Swiss & High-Contrast / Tech Startup Minimalist (E1 System)",
+  "design_philosophy": "A modern, YC-style early-stage startup aesthetic. The design relies heavily on deep navy/black tones, extreme minimalism, generous whitespace, and subtle blue/white glowing accents. Stock photos are prohibited; visual interest must come from CSS gradients, glassmorphism, precise typography, and UI-style abstract shapes.",
+  "colors": {
+    "background_base": "#020617",
+    "background_surface": "#0f172a",
+    "surface_glass": "rgba(15, 23, 42, 0.4)",
+    "primary_accent": "#3b82f6",
+    "primary_glow": "rgba(59, 130, 246, 0.15)",
+    "text_main": "#ffffff",
+    "text_muted": "#94a3b8",
+    "border_subtle": "rgba(255, 255, 255, 0.08)",
+    "border_hover": "rgba(59, 130, 246, 0.3)"
+  },
+  "typography": {
+    "headings": "'Outfit', sans-serif",
+    "body": "'Plus Jakarta Sans', sans-serif",
+    "logo": "Lowercase 'grndwork', heavy weight, tracking-tight",
+    "rules": [
+      "No generic sans (Inter/Roboto) for headings.",
+      "Headings should use tracking-tighter for a modern tech feel.",
+      "Keep body text loose and legible (leading-relaxed)."
+    ]
+  },
+  "layout_spacing": {
+    "section_padding": "py-24 md:py-32",
+    "container_width": "max-w-7xl mx-auto px-6 lg:px-8",
+    "bento_grid": "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6",
+    "rules": [
+      "Generous spacing: Use p-8 or p-12 in cards.",
+      "Containers with borders must have internal padding.",
+      "Implement the 'Tetris' bento grid pattern for feature layouts."
+    ]
+  },
+  "visual_enhancers": {
+    "glows": "Use absolute positioned divs with 'blur-[100px]' and brand colors (blue) to create subtle atmospheric lighting behind key elements like the hero text or features grid.",
+    "borders": "1px solid 'border-white/5'. Use hover states to illuminate borders ('hover:border-blue-500/30').",
+    "glassmorphism": "For sticky nav and cards: 'backdrop-blur-xl bg-slate-900/40 border border-white/10'. Add a subtle inner shadow if needed for depth."
+  },
+  "components": [
+    {
+      "name": "Global Header",
+      "style": "Fixed, sticky, glassmorphism (backdrop-blur-xl bg-background/50 border-b border-white/5).",
+      "content": "Logo 'grndwork' on left. Navigation links in center. 'Join Early Access' CTA button on right.",
+      "interactions": "Nav links should have a subtle hover effect."
+    },
+    {
+      "name": "Hero Section",
+      "style": "Centered, high impact, heavy negative space. Heading text-5xl md:text-7xl tracking-tighter.",
+      "content": "Headline: 'Discover your path. Land your future.' Subheadline: 'grndwork helps students go from not knowing what to pursue to landing real opportunities.'",
+      "visuals": "Place a massive, extremely blurred soft blue orb in the background (z-[-1]).",
+      "ctas": "Primary: 'Join Early Access' (White bg, black text, bold). Secondary: 'Learn More' (Outline, subtle hover)."
+    },
+    {
+      "name": "Problem Statement Section",
+      "style": "Minimalistic typography focus. Center-aligned or heavily asymmetric. Large text.",
+      "content": "Statement: 'Most students don't lack ambition — they lack clarity.' Followed by muted supporting text about the confusion of career paths."
+    },
+    {
+      "name": "Features Grid",
+      "style": "Bento box grid style. Dark transparent cards with glowing borders on hover.",
+      "items": [
+        "Personalized career direction",
+        "Internship recommendations",
+        "Application tracking",
+        "Networking and LinkedIn guidance"
+      ],
+      "card_ui": "Use Lucide React icons. Soft gradient icon backgrounds. Minimal text descriptions."
+    },
+    {
+      "name": "How It Works (Timeline)",
+      "style": "3-step progression flow. Can be horizontal cards or a vertical connected timeline.",
+      "steps": [
+        "Discover your interests",
+        "Explore real opportunities",
+        "Track and land internships"
+      ]
+    },
+    {
+      "name": "Vision / Social Proof",
+      "style": "A large, bold quote block or vision statement emphasizing building what students actually need.",
+      "visuals": "Use a subtle text gradient (from-white to-slate-500)."
+    },
+    {
+      "name": "Waitlist Form CTA",
+      "style": "Contained in a sleek dark card with a soft glowing blue border.",
+      "content": "Headline: 'Get early access'. Subtext: 'Be one of the first students to try grndwork'.",
+      "form_fields": "Name, Email, School, Graduation Year (select/dropdown), Career interest fields (multi-select or text).",
+      "logic": "Use Shadcn Form + React Hook Form + Zod. Show Sonner toast on success."
+    }
+  ],
+  "accessibility_and_testing": {
+    "testing": "MANDATORY: Add data-testid attributes to ALL interactive elements (buttons, inputs, selects, form submit buttons, toast notifications)."
+  },
+  "image_urls": [
+    {
+      "category": "Hero Abstract Layer",
+      "url": "https://images.unsplash.com/photo-1645724298072-ec933da5b47f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzF8MHwxfHNlYXJjaHw0fHxkYXJrJTIwZ3JhZGllbnQlMjBhYnN0cmFjdCUyMGJhY2tncm91bmR8ZW58MHx8fHwxNzc3NTgwNzk0fDA&ixlib=rb-4.1.0&q=85",
+      "description": "Optional dark blue/black abstract gradient. Apply low opacity (10-20%) and use as a subtle background texture if pure CSS glow is not enough. Otherwise rely on CSS gradients."
+    }
+  ],
+  "instructions_to_main_agent": [
+    "Install 'framer-motion' via yarn for scroll and entrance animations. Wrap sections in motion.div for fade-up effects.",
+    "Import Google Fonts 'Outfit' and 'Plus Jakarta Sans' in the main HTML/CSS.",
+    "Configure tailwind.config.js to include font families and brand colors.",
+    "Do NOT use stock photos. Build the UI visuals entirely out of CSS shapes, gradients, and icons to maintain the early-stage tech startup look.",
+    "For the waitlist form, strictly use Shadcn components (Form, Input, Select, Button, Toast/Sonner)."
+  ]
+}
