@@ -1,0 +1,15 @@
+{
+  "short_name": "grndwork",
+  "name": "grndwork — Discover your path. Land your future.",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#020617",
+  "background_color": "#020617"
+}
