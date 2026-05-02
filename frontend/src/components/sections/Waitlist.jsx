@@ -29,16 +29,33 @@ const CURRENT_YEAR = new Date().getFullYear();
 const GRAD_YEARS = Array.from({ length: 8 }, (_, i) => CURRENT_YEAR + i);
 
 const CAREER_INTERESTS = [
+ const CAREER_INTERESTS = [
   "Software Engineering",
+  "AI / Machine Learning",
+  "Data Science & Analytics",
+  "Cybersecurity",
   "Product Management",
   "Product Design / UX",
-  "Data Science & Analytics",
+  "Engineering",
   "Finance / Investment Banking",
+  "Venture Capital / Private Equity",
   "Consulting",
+  "Sales / Business Development",
   "Marketing & Growth",
+  "Operations",
+  "Healthcare / Medicine",
+  "Biotech / MedTech",
+  "Law / Policy",
+  "Government / Public Sector",
+  "Nonprofit / Social Impact",
   "Research / Academia",
+  "Education",
+  "Sustainability / Climate",
   "Startups / Entrepreneurship",
-  "Still figuring it out",
+  "Blockchain / Web3",
+  "Creator Economy / Content",
+  "Other",
+  "Still exploring",
 ];
 
 const schema = z.object({
