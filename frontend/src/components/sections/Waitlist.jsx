@@ -29,7 +29,6 @@ const CURRENT_YEAR = new Date().getFullYear();
 const GRAD_YEARS = Array.from({ length: 8 }, (_, i) => CURRENT_YEAR + i);
 
 const CAREER_INTERESTS = [
- const CAREER_INTERESTS = [
   "Software Engineering",
   "AI / Machine Learning",
   "Data Science & Analytics",
