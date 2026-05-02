@@ -77,6 +77,7 @@ export default function Waitlist() {
       form.reset();
     } catch (err) {
       const msg =
+        err?.message ||
         err?.response?.data?.detail ||
         "Something went wrong. Please try again.";
       toast.error(typeof msg === "string" ? msg : "Failed to join waitlist.");

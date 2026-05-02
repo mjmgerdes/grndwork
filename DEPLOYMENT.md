@@ -1,13 +1,34 @@
-# Deploying grndwork for free
+# Deploying grndwork (static, free)
 
-Stack: React (CRA) frontend + FastAPI backend + Supabase Postgres (waitlist).
-Free path: **Vercel** (frontend) + **Render** (backend) + **Supabase** (already free).
+This is a **pure static site**. No backend required. Emails are sent directly from the browser to **Supabase** using the public `anon` key + Row-Level-Security.
+
+Recommended host: **Vercel** (free, auto HTTPS, custom domain).
+Also works on: Netlify, Cloudflare Pages, GitHub Pages.
 
 ---
 
-## 1. Push to GitHub
-From Emergent: Profile → Save to GitHub (requires paid Emergent subscription for export).
-Or locally:
+## 1. One-time Supabase setup (required — do this BEFORE first deploy)
+
+Open Supabase Dashboard → **SQL Editor** → run this:
+
+```sql
+-- Lock down the waitlist table so the public anon key can ONLY insert rows,
+-- and cannot read, update, or delete anyone's data.
+alter table public.waitlist enable row level security;
+
+create policy "Anyone can join waitlist (insert only)"
+  on public.waitlist
+  for insert
+  to anon
+  with check (true);
+```
+
+Verify it worked: Dashboard → **Authentication → Policies** → `waitlist` should list one INSERT policy for role `anon`.
+
+> Your service-role key (server-side) still has full access — only browser/anon access is restricted to insert-only. Reads are blocked for the public.
+
+## 2. Push to GitHub
+
 ```bash
 git init && git add . && git commit -m "Initial commit"
 git branch -M main
@@ -15,59 +36,30 @@ git remote add origin https://github.com/<you>/grndwork.git
 git push -u origin main
 ```
 
-## 2. Deploy the backend on Render (free tier)
+## 3. Deploy on Vercel (free)
 
-1. Go to https://render.com → New → Blueprint
-2. Connect your GitHub repo. Render will detect `render.yaml` in the repo root.
-3. On the Environment Variables screen, set:
-   - `DATABASE_URL` = your Supabase **Transaction Pooler** URI
-     (`postgresql://postgres.[REF]:[PASSWORD]@aws-0-[REGION].pooler.supabase.com:6543/postgres`)
-   - `CORS_ORIGINS` = `*` for now (tighten to your Vercel URL after step 3)
-4. Click **Apply**. The build runs `alembic upgrade head` so your `waitlist` table is created automatically.
-5. Once live, note the URL (e.g. `https://grndwork-api.onrender.com`) — test: `https://…/api/` should return `{"message":"grndwork API"}`.
+1. Go to https://vercel.com → **New Project** → import the GitHub repo.
+2. Vercel will auto-detect the config in `vercel.json` (builds `frontend/`).
+3. Add **Environment Variables**:
+   - `REACT_APP_SUPABASE_URL` = `https://<your-ref>.supabase.co`
+   - `REACT_APP_SUPABASE_ANON_KEY` = your **anon / public** key
+4. Click **Deploy**. You'll get a free `https://<project>.vercel.app` URL.
 
-> Render free instances sleep after 15 min idle (first request may take ~30s to wake).
+Done. Every form submission lands in your Supabase `waitlist` table.
 
-## 3. Deploy the frontend on Vercel (free)
+## 4. (Optional) Custom domain
 
-1. Go to https://vercel.com → New Project → import your GitHub repo.
-2. **Root Directory** → `frontend`.
-3. Framework preset is auto-detected (Create React App).
-4. Environment Variables:
-   - `REACT_APP_BACKEND_URL` = your Render URL from step 2 (no trailing slash).
-5. Deploy. You'll get a `https://<project>.vercel.app` URL.
-
-## 4. Lock down CORS (recommended)
-
-Back in Render → your service → Environment:
-```
-CORS_ORIGINS=https://grndwork.vercel.app,https://<your-custom-domain>
-```
-Save → service auto-redeploys.
-
-## 5. Custom domain (optional, free)
-
-- Buy a domain (e.g. Namecheap/Cloudflare, ~$10/yr).
-- In Vercel → Project → Settings → Domains → add your domain, follow DNS instructions.
+Vercel → Project → Settings → Domains → add your domain, follow DNS instructions. HTTPS is free and automatic.
 
 ---
 
 ## Local dev
 ```bash
-# Backend
-cd backend
-cp .env.example .env           # fill in DATABASE_URL
-pip install -r requirements.txt
-alembic upgrade head
-uvicorn server:app --reload --port 8001
-
-# Frontend
 cd frontend
-cp .env.example .env           # set REACT_APP_BACKEND_URL=http://localhost:8001
+cp .env.example .env      # fill in your Supabase URL + anon key
 yarn install
-yarn start
+yarn start                # http://localhost:3000
 ```
 
-## Notes
-- MongoDB is optional. If `MONGO_URL` is unset, the backend simply skips Mongo init — `/api/status` becomes a no-op. All core (waitlist) flows run on Supabase Postgres.
-- Do **not** commit `.env` files. Only `.env.example` should be in Git.
+## What happened to the backend?
+The FastAPI backend in `/backend` is no longer needed for the static deploy. You can safely delete the `backend/` folder before pushing to GitHub — nothing on the live site depends on it.
